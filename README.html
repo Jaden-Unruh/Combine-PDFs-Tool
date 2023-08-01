@@ -1,0 +1,39 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title></title></head><body><h1>Combine PDFs</h1>
+<p>A tool to combine all PDF documents within a directory into one long PDF</p>
+<h2>Setup</h2>
+<p>Java SE 17 is required to run this program. An installer for Temurin/OpenJDK 17 should be included with the file, running the installer will open a window guiding you through the installation. Leaving everything as default should work perfectly, just click through the pages. If the installer is not included, it can be downloaded from <a href="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_x64_windows_hotspot_17.0.8_7.msi">here</a>. After installing Temurin/Java 17, the <code>.JAR</code> should run just by double-clicking.</p>
+<h2>GUI</h2>
+<p>When <code>Combine PDFs.JAR</code> is run, it will open a large window, consisting of three parts:</p>
+<ol>
+<li>Directory select: a window to select the directory that will be searched for the PDFs. Make sure that after you’ve selected the directory you press <code>Open</code>.</li>
+<li>Output select: a window to select the output location. This can be an existing PDF, though the contents of the PDF will be entirely overwritten. For this reason, it is recommended to specify a new file, by navigating to a directory and typing any file name. Note that you can specify a different file extension (e.g. <code>.png</code>), but the file will save as a pdf, and thus may not open correctly with a different extension. Again, press <code>Open</code> after selecting an output.</li>
+<li><code>Cancel</code>, <code>Run</code>, and info panel: <code>Cancel</code> will close the application, and <code>Run</code> will start the program. If nothing happens when pressing <code>Run</code>, you have not correctly opened a directory or output location. Make sure you’ve pressed <code>Open</code> for each. The info panel below these buttons will give information about what’s happening as the program’s running. When it has completed, this panel will display ‘<code>Done!</code>’ and the number of pages copied.</li>
+</ol>
+<h2>Troubleshooting</h2>
+<blockquote>
+<p><code>Run</code> isn’t working</p>
+</blockquote>
+<ul>
+<li>Ensure you’ve selected a directory and output file correctly, and pressed <code>Open</code> for each.</li>
+<li>The button should turn gray and the info text should change to say ‘<code>Running...</code>’ when  pressed</li>
+</ul>
+<hr />
+<blockquote>
+<p>I can’t open the output file</p>
+</blockquote>
+<ul>
+<li>The file outputted will always be a PDF, even if the extension is something else, or if there is no extension. When you choose an output and type a name in, you can manually type ‘.pdf’ after the name you choose, and this will ensure that your computer recognizes the file as a pdf. Alternatively, you can manually rename the files to have this extension (make sure the box next to <code>File name extensions</code> is checked under <code>View</code> in your file explorer). Finally, if renaming isn’t working, right clicking the file and choosing <code>Open with</code>, then selecting an application for opening PDFs, such as Revu, Adobe Acrobat, Sejda, or any other PDF editor should open it even without the correct extension</li>
+</ul>
+<hr />
+<blockquote>
+<p>The <code>.JAR</code> won’t run</p>
+</blockquote>
+<ul>
+<li>Try right-clicking and selecting <code>Open with -&gt; OpenJDK Platform binary</code>. If this doesn’t work, or doesn’t show up, ensure you’ve installed OpenJDK as specified under <a href="#setup">Setup</a></li>
+</ul>
+<h2>Details of what it does</h2>
+<p>The program will deep search the given directory (that is, search not only the immediate directory but any directories within it and all of its ‘children’, all the way down). Any PDFs within those directories will be copied, one after the other, to the output directory. Any blank pages (determined by having at least 99.9% of the pixels on the page be white or light gray, lighter than <code>#F8F8F8</code>) will not be copied over. Additionally, the program will add bookmarks to the pdf at the beginning of each copied page, in the format ‘<code>AB###### filename 20##-MM-DD</code>’. This is the AB-number, pulled from the path of the file when it was copied; the original filename, including the extension, of the copied file; and the creation date of the file.</p>
+<h2>Changing the code</h2>
+<p>The <code>.JAR</code> file is compiled and compressed, meaning it is not human-readable code. If you want to change how the program works, add new features, or anything else, I have uploaded the <code>.java</code> file to a github repository, along with this <code>README.md</code>(and a .HTML version in case you can’t open the .md) and the <code>.JAR</code> itself. The <code>.java</code> file can be downloaded and edited like any other text file, though I’d recommend using an IDE. When compiling the code again, make sure to include the pdfbox classes specified in the imports section of the file (these are already included in the <code>.JAR</code> file I compiled). They can be downloaded from <a href="https://pdfbox.apache.org/download.html">here</a>.</p>
+<p>The mentioned github repo is <a href="https://github.com/Jaden-Unruh/Combine-PDFs-Tool">here</a>.</p>
+</body></html>
