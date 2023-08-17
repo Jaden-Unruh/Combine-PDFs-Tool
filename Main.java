@@ -116,13 +116,16 @@ public class Main {
 				try {
 					File directory = dirSelect.getSelectedFile();
 					File output = outputSelect.getSelectedFile();
+					if(!output.toString().toLowerCase().endsWith(".pdf"))
+						output = new File(output.toString() + ".pdf");
+					final File reOutput = output;
 					info.setText(String.format("<html><div style='text-align: center;'>Directory: %s, Output: %s<br>Running...</html>", directory.getName(), output.getName()));
 					options.pack();
 					
 					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 						@Override
 						protected Boolean doInBackground() throws Exception {
-							combinePDFs(directory, output);
+							combinePDFs(directory, reOutput);
 							run.setEnabled(true);
 							return true;
 						}
@@ -142,7 +145,7 @@ public class Main {
 	static int count = 0;
 	
 	/**
-	 * Deep searches the given directory for any pdfs and adds them, except for blank pages, to the given output pdf
+	 * Deep searches the given directory for any pdfs that don't contain the word "report" in their path and adds them, except for blank pages, to the given output pdf
 	 * @param input Search directory
 	 * @param output PDF file
 	 */
@@ -275,7 +278,7 @@ public class Main {
 		for (File file : files) {
 			if(file.isDirectory())
 				addPDFs(file, list);
-			else if (file.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
+			else if (file.getAbsolutePath().toLowerCase().endsWith(".pdf") && !file.getAbsolutePath().toLowerCase().contains("report") && !file.getName().toLowerCase().contains("report")) {
 				list.add(file);
 				count++;
 			}
