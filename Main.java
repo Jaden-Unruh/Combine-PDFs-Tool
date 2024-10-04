@@ -6,11 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
@@ -129,6 +135,19 @@ public class Main {
 							run.setEnabled(true);
 							return true;
 						}
+						
+						@Override
+						protected void done() {
+							try {
+								get();
+							} catch (InterruptedException | ExecutionException e) {
+								run.setEnabled(true);
+								try {
+									showErrorMessage(e);
+								} catch (IOException e1) {
+								}
+							}
+						}
 					};
 					run.setEnabled(false);
 					sw.execute();
@@ -140,6 +159,19 @@ public class Main {
 		
 		options.pack();
 		options.setVisible(true);
+	}
+	
+	static void showErrorMessage(Exception e) throws IOException {
+		e.printStackTrace();
+		String[] choices = {"Close", "More Info..."};
+		if (JOptionPane.showOptionDialog(options, String.format("Unexpected Problem:\n%s", e.toString()), "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, choices, choices[0]) == 1) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			JTextArea jta = new JTextArea(25, 50);
+			jta.setText(String.format("Full Error Stack Trace:\n%s", sw.toString()));
+			jta.setEditable(false);
+			JOptionPane.showMessageDialog(options, new JScrollPane(jta), "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	static int count = 0;
