@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>us.akana.tools</groupId>
   <artifactId>combine-pdfs</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
   <name>Combine PDFs</name>
   <url>https://github.com/Jaden-Unruh/Combine-PDFs-Tool</url>
@@ -38,6 +38,14 @@
   	<maven.compiler.target>14</maven.compiler.target>
   </properties>
   
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.pdfbox</groupId>
+  		<artifactId>pdfbox</artifactId>
+  		<version>3.0.3</version>
+  	</dependency>
+  </dependencies>
+  
   <build>
   	<pluginManagement>
   		<plugins>
@@ -49,7 +57,7 @@
   					<appendAssemblyId>false</appendAssemblyId>
   					<archive>
   						<manifest>
-  							<mainClass>reportNameCheck.Main</mainClass>
+  							<mainClass>Main</mainClass>
   						</manifest>
   					</archive>
   					<descriptorRefs>
